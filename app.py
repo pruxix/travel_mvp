@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+import os
 
 # ─── Page Config ────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -276,9 +277,9 @@ QUESTIONS = [
 ]
 
 # ─── Provider config ─────────────────────────────────────────────────────────
-DEEPSEEK_API_KEY = "sk-205302d4df834ceba0b3809340edf3f7"
-DEEPSEEK_URL     = "https://api.deepseek.com/chat/completions"
-DEEPSEEK_MODEL   = "deepseek-chat"
+MISTRAL_API_KEY = os.environ["MISTRAL_API_KEY"]
+MISTRAL_URL     = "https://api.mistral.ai/v1/chat/completions"
+MISTRAL_MODEL   = "mistral-large-latest"
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 def render_step_bar(current):
@@ -306,7 +307,7 @@ def render_step_bar(current):
 
 def call_llm(system_prompt, user_message, history=None, stream=False):
     headers = {
-        "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+        "Authorization": f"Bearer {MISTRAL_API_KEY}",
         "Content-Type": "application/json",
     }
     messages = [{"role": "system", "content": system_prompt}]
@@ -315,17 +316,16 @@ def call_llm(system_prompt, user_message, history=None, stream=False):
     messages.append({"role": "user", "content": user_message})
 
     payload = {
-        "model": DEEPSEEK_MODEL,
+        "model": MISTRAL_MODEL,
         "max_tokens": 2000,
         "messages": messages,
         "stream": stream,
     }
 
     if stream:
-        with requests.post(DEEPSEEK_URL, headers=headers, json=payload, stream=True) as resp:
+        with requests.post(MISTRAL_URL, headers=headers, json=payload, stream=True) as resp:
             if not resp.ok:
-                error_body = resp.text
-                st.error(f"DeepSeek API error {resp.status_code}: {error_body}")
+                st.error(f"Mistral API error {resp.status_code}: {resp.text}")
                 return
             for line in resp.iter_lines():
                 if line:
@@ -342,9 +342,9 @@ def call_llm(system_prompt, user_message, history=None, stream=False):
                         except Exception:
                             pass
     else:
-        resp = requests.post(DEEPSEEK_URL, headers=headers, json=payload)
+        resp = requests.post(MISTRAL_URL, headers=headers, json=payload)
         if not resp.ok:
-            st.error(f"DeepSeek API error {resp.status_code}: {resp.text}")
+            st.error(f"Mistral API error {resp.status_code}: {resp.text}")
             return ""
         return resp.json()["choices"][0]["message"]["content"]
 
