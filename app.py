@@ -355,7 +355,7 @@ def render_city_select():
 
     if st.button("Продолжить →", type="primary"):
         if final_city:
-            st.session_state.step = 2  # переходим к следующему шагу
+            st.session_state.step = 1  # переходим к следующему шагу
             st.rerun()
         else:
             st.warning("Выберите город или введите свой")
