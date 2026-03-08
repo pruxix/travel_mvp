@@ -35,7 +35,13 @@ st.markdown("""
 }
 
 html, body, [class*="css"] { font-family: system-ui; color: var(--text); background: var(--bg) !important; }
-.stApp { background: var(--bg) !important; min-height: 100vh; }
+.stApp { 
+    background: var(--bg) !important; 
+    min-height: 100vh; 
+    max-width: 1100px;      /* макс ширина страницы */
+    margin: 0 auto;         /* центрируем */
+    padding: 1rem 1.5rem;   /* отступы */
+}
 h1,h2,h3,h4 { font-family: sans-serif; }
 
 /* Фоновые свечения */
