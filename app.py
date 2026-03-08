@@ -336,7 +336,7 @@ def render_city_select():
                 btn_text = f"{flag} {name}"
                 if st.button(btn_text):
                     st.session_state.city = name
-                    st.session_state.step = 2  # следующий шаг
+                    st.session_state.step = 1  # следующий шаг
                     st.rerun()
 
     # текстовый ввод для произвольного города
