@@ -320,28 +320,45 @@ def render_step_bar(current):
 def render_city_select():
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown("## 🏙️ Куда летим?")
-    st.markdown("<p style='color:var(--muted);margin-bottom:1.4rem'>Выберите из популярных направлений или введите свой город</p>", unsafe_allow_html=True)
+    st.markdown(
+        "<p style='color:#6b7280;margin-bottom:1.4rem'>Выберите из популярных направлений или введите свой город</p>",
+        unsafe_allow_html=True
+    )
 
-    city_names = [f"{flag} {name}" for flag, name in POPULAR_CITIES]
-    selected_idx = 0
+    # создаём кнопки для городов в виде облака
+    cols_per_row = 5  # 5 кнопок в строке
     current = st.session_state.get("city", "")
-    for i, (flag, name) in enumerate(POPULAR_CITIES):
-        if current == name:
-            selected_idx = i
+    
+    for i in range(0, len(POPULAR_CITIES), cols_per_row):
+        cols = st.columns(cols_per_row)
+        for j, (flag, name) in enumerate(POPULAR_CITIES[i:i+cols_per_row]):
+            with cols[j]:
+                btn_text = f"{flag} {name}"
+                if st.button(btn_text):
+                    st.session_state.city = name
+                    st.session_state.step = 2  # следующий шаг
+                    st.rerun()
 
-    chosen = st.radio("", city_names, index=selected_idx, label_visibility="collapsed")
-    chosen_name = chosen.split(" ", 1)[1] if " " in chosen else chosen
-
-    st.markdown("<p style='color:var(--muted);font-size:.85rem;margin-top:1rem'>Или введите другой город:</p>", unsafe_allow_html=True)
+    # текстовый ввод для произвольного города
+    st.markdown(
+        "<p style='color:#6b7280;font-size:.85rem;margin-top:1rem'>Или введите другой город:</p>",
+        unsafe_allow_html=True
+    )
     custom = st.text_input("", placeholder="Лиссабон, Сеул, Медельин, Тбилиси...", label_visibility="collapsed")
+    
+    # финальный город
+    final_city = custom.strip() if custom.strip() else current
+    if final_city:
+        st.session_state.city = final_city
 
-    final_city = custom.strip() if custom.strip() else chosen_name
     st.markdown("</div>", unsafe_allow_html=True)
 
     if st.button("Продолжить →", type="primary"):
-        st.session_state.city = final_city
-        st.session_state.step = 1
-        st.rerun()
+        if final_city:
+            st.session_state.step = 2  # переходим к следующему шагу
+            st.rerun()
+        else:
+            st.warning("Выберите город или введите свой")
 
 # ════════════════════════════════════════════════════════════════
 #  ШАГ 1: ОПРОС
