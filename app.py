@@ -276,7 +276,7 @@ QUESTIONS = [
 ]
 
 # ─── Provider config ─────────────────────────────────────────────────────────
-DEEPSEEK_API_KEY = "sk-a0d9cf7c35a548bb83e3979b2e450ee1"
+DEEPSEEK_API_KEY = "sk-205302d4df834ceba0b3809340edf3f7"
 DEEPSEEK_URL     = "https://api.deepseek.com/chat/completions"
 DEEPSEEK_MODEL   = "deepseek-chat"
 
@@ -323,7 +323,10 @@ def call_llm(system_prompt, user_message, history=None, stream=False):
 
     if stream:
         with requests.post(DEEPSEEK_URL, headers=headers, json=payload, stream=True) as resp:
-            resp.raise_for_status()
+            if not resp.ok:
+                error_body = resp.text
+                st.error(f"DeepSeek API error {resp.status_code}: {error_body}")
+                return
             for line in resp.iter_lines():
                 if line:
                     line = line.decode("utf-8")
@@ -340,7 +343,9 @@ def call_llm(system_prompt, user_message, history=None, stream=False):
                             pass
     else:
         resp = requests.post(DEEPSEEK_URL, headers=headers, json=payload)
-        resp.raise_for_status()
+        if not resp.ok:
+            st.error(f"DeepSeek API error {resp.status_code}: {resp.text}")
+            return ""
         return resp.json()["choices"][0]["message"]["content"]
 
 
