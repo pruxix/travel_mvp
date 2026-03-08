@@ -277,7 +277,7 @@ QUESTIONS = [
 ]
 
 # ─── Provider config ─────────────────────────────────────────────────────────
-MISTRAL_API_KEY = os.environ["U4Ttbskkzv9xcOl9RQh13AfjsN7kQ49E"]
+MISTRAL_API_KEY = "U4Ttbskkzv9xcOl9RQh13AfjsN7kQ49E"
 MISTRAL_URL     = "https://api.mistral.ai/v1/chat/completions"
 MISTRAL_MODEL   = "mistral-large-latest"
 
