@@ -264,7 +264,7 @@ def build_profile_prompt(answers, city):
 {json.dumps(answers, ensure_ascii=False, indent=2)}
 
 Верни ТОЛЬКО валидный JSON (без markdown, без пояснений):
-{{"traveler_type":"тип (1-3 слова)","archetype":"архетип","motivation":"мотивация (1 предложение)","style":"стиль (1-2 предложения)","strengths":["сила 1","сила 2","сила 3"],"challenges":["сложность"],"perfect_destination_type":"идеальный тип"}}"""
+{{"traveler_type":"тип (1-3 слова)","archetype":"архетип","motivation":"мотивация (максимум 2 слова)","style":"стиль (1-2 предложения)","strengths":["сила 1","сила 2","сила 3"],"challenges":["сложность"],"perfect_destination_type":"идеальный тип"}}"""
 
 
 def build_route_prompt(answers, profile, city):
