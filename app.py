@@ -381,6 +381,18 @@ def render_survey():
     q = QUESTIONS[q_idx]
     st.markdown(f"### {q['emoji']} {q['text']}")
 
+    # 👇 ДОБАВЛЕН ОТСТУП МЕЖДУ ВАРИАНТАМИ
+    st.markdown("""
+    <style>
+    div[data-testid="stRadio"] > div {
+        gap: 8px;
+    }
+    div[data-testid="stRadio"] label {
+        margin-bottom: 6px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     key = f"ans_{q['id']}"
     if q["type"] == "radio":
         cur = st.session_state.answers.get(q["id"], q["options"][0])
