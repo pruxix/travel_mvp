@@ -34,9 +34,9 @@ st.markdown("""
     --muted:  #8BAABB;
 }
 
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; color: var(--text); background: var(--bg) !important; }
+html, body, [class*="css"] { font-family: system-ui; color: var(--text); background: var(--bg) !important; }
 .stApp { background: var(--bg) !important; min-height: 100vh; }
-h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
+h1,h2,h3,h4 { font-family: sans-serif; }
 
 /* Фоновые свечения */
 .stApp::before {
@@ -176,7 +176,7 @@ QUESTIONS = [
     {"id": "duration",      "text": "Сколько дней займёт поездка?",           "type": "radio",  "emoji": "📅",
      "options": ["2–3 дня (уикенд)", "4–7 дней", "8–14 дней", "Более 2 недель"]},
     {"id": "budget",        "text": "Бюджет на человека (включая перелёт)?",  "type": "radio",  "emoji": "💰",
-     "options": ["До $500", "$500–1500", "$1500–3000", "Свыше $3000", "Гибкий / открытый"]},
+     "options": ["До 30 000 ₽", "30 000–70 000 ₽", "70 000–100 000 ₽", "Свыше 100 000 ₽", "Гибкий / открытый"]},
     {"id": "accommodation", "text": "Предпочтительный тип жилья?",            "type": "radio",  "emoji": "🏨",
      "options": ["Хостел / бюджет", "3★ отель", "4–5★ отель", "Апартаменты / Airbnb", "Бутик-отель"]},
     {"id": "pace",          "text": "Темп путешествия?",                      "type": "radio",  "emoji": "⏱️",
