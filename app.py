@@ -1,5 +1,5 @@
 import streamlit as st
-import anthropic
+import requests
 import json
 
 # ─── Page Config ────────────────────────────────────────────────────────────
@@ -275,7 +275,10 @@ QUESTIONS = [
     },
 ]
 
-client = anthropic.Anthropic()
+# ─── Provider config ─────────────────────────────────────────────────────────
+DEEPSEEK_API_KEY = "sk-205302d4df834ceba0b3809340edf3f7"
+DEEPSEEK_URL     = "https://api.deepseek.com/chat/completions"
+DEEPSEEK_MODEL   = "deepseek-chat"
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
 def render_step_bar(current):
@@ -301,19 +304,48 @@ def render_step_bar(current):
     st.markdown(f'<div class="step-bar">{"".join(circles)}</div>', unsafe_allow_html=True)
 
 
-def stream_claude(system_prompt, user_message, history=None):
-    messages = []
+def call_llm(system_prompt, user_message, history=None, stream=False):
+    headers = {
+        "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+        "Content-Type": "application/json",
+    }
+    messages = [{"role": "system", "content": system_prompt}]
     if history:
         messages.extend(history)
     messages.append({"role": "user", "content": user_message})
-    with client.messages.stream(
-        model="claude-sonnet-4-20250514",
-        max_tokens=2000,
-        system=system_prompt,
-        messages=messages,
-    ) as stream:
-        for text in stream.text_stream:
-            yield text
+
+    payload = {
+        "model": DEEPSEEK_MODEL,
+        "max_tokens": 2000,
+        "messages": messages,
+        "stream": stream,
+    }
+
+    if stream:
+        with requests.post(DEEPSEEK_URL, headers=headers, json=payload, stream=True) as resp:
+            resp.raise_for_status()
+            for line in resp.iter_lines():
+                if line:
+                    line = line.decode("utf-8")
+                    if line.startswith("data: "):
+                        data = line[6:]
+                        if data == "[DONE]":
+                            break
+                        try:
+                            obj = json.loads(data)
+                            delta = obj["choices"][0]["delta"].get("content", "")
+                            if delta:
+                                yield delta
+                        except Exception:
+                            pass
+    else:
+        resp = requests.post(DEEPSEEK_URL, headers=headers, json=payload)
+        resp.raise_for_status()
+        return resp.json()["choices"][0]["message"]["content"]
+
+
+def stream_claude(system_prompt, user_message, history=None):
+    return call_llm(system_prompt, user_message, history, stream=True)
 
 
 def build_profile_prompt(answers):
@@ -410,14 +442,13 @@ def render_profile():
     if st.session_state.profile is None:
         with st.spinner("Анализируем ваши предпочтения..."):
             prompt = build_profile_prompt(st.session_state.answers)
-            response = client.messages.create(
-                model="claude-sonnet-4-20250514",
-                max_tokens=800,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            raw = response.content[0].text.strip()
-            raw = raw.replace("```json", "").replace("```", "").strip()
             try:
+                raw = call_llm(
+                    "Ты — психолог-путешествий. Отвечай ТОЛЬКО валидным JSON без markdown.",
+                    prompt,
+                    stream=False,
+                )
+                raw = raw.replace("```json", "").replace("```", "").strip()
                 st.session_state.profile = json.loads(raw)
             except Exception:
                 st.session_state.profile = {"traveler_type": "Уникальный путешественник", "archetype": "Исследователь", "motivation": "Открывать новое", "style": "Гибкий и любознательный", "strengths": ["Открытость", "Любопытство", "Адаптивность"], "challenges": ["Сложно выбрать одно место"], "perfect_destination_type": "Разнообразные культурные направления"}
