@@ -38,7 +38,7 @@ html, body, [class*="css"] { font-family: system-ui; color: var(--text); backgro
 .stApp { 
     background: var(--bg) !important; 
     min-height: 100vh; 
-    max-width: 1100px;      /* макс ширина страницы */
+    max-width: 1400px;      /* макс ширина страницы */
     margin: 0 auto;         /* центрируем */
     padding: 1rem 1.5rem;   /* отступы */
 }
