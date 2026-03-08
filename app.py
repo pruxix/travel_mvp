@@ -455,7 +455,7 @@ def render_profile():
     <div class="profile-grid">
       <div class="profile-badge"><div class="badge-label">Тип</div><div class="badge-value">{p.get('traveler_type','—')}</div></div>
       <div class="profile-badge"><div class="badge-label">Архетип</div><div class="badge-value">{p.get('archetype','—')}</div></div>
-      <div class="profile-badge"><div class="badge-label">Идеальный тип</div><div class="badge-value">{p.get('perfect_destination_type','—')[:35]}</div></div>
+      <div class="profile-badge"><div class="badge-label">Идеальный тип</div><div class="badge-value">{p.get('perfect_destination_type','—')[:40]}</div></div>
     </div>""", unsafe_allow_html=True)
 
     st.markdown(f"**🎯 Мотивация:** {p.get('motivation','')}")
