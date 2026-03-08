@@ -276,7 +276,7 @@ QUESTIONS = [
 ]
 
 # ─── Provider config ─────────────────────────────────────────────────────────
-DEEPSEEK_API_KEY = "sk-205302d4df834ceba0b3809340edf3f7"
+DEEPSEEK_API_KEY = "sk-a0d9cf7c35a548bb83e3979b2e450ee1"
 DEEPSEEK_URL     = "https://api.deepseek.com/chat/completions"
 DEEPSEEK_MODEL   = "deepseek-chat"
 
