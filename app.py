@@ -125,33 +125,75 @@ h1,h2,h3,h4 { font-family: sans-serif; }
 }
 .stButton > button:hover { transform:translateY(-2px) !important; box-shadow:0 6px 24px rgba(78,205,196,.4) !important; }
 
-/* Инпуты */
-.stRadio label { color:var(--text) !important; }
-div[data-testid="stRadio"] input[type="radio"]{
-    display:none;
+/* ── Все тексты явно белые, ничего не сливается с фоном ── */
+.stMarkdown p      { color: var(--text) !important; }
+.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4 { color: var(--text) !important; }
+.stMarkdown strong { color: var(--text) !important; }
+.stMarkdown li     { color: var(--text) !important; }
+
+/* Подложка под блоки Streamlit чтобы текст не сливался с фоном */
+.stMarkdown {
+    background: rgba(13, 27, 42, 0.6);
+    border-radius: 8px;
+    padding: 4px 8px;
 }
 
-/* обычные варианты */
+/* Инпуты — текст и фон */
+.stTextInput > div > div > input {
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    color: var(--text) !important;
+}
+.stTextInput > div > div > input::placeholder { color: var(--muted) !important; opacity: 1; }
+.stTextInput > div > div > input:focus {
+    border-color: var(--teal) !important;
+    box-shadow: 0 0 0 2px rgba(78,205,196,.2) !important;
+}
+.stTextInput label, .stTextArea label, .stSelectbox label {
+    color: var(--muted) !important;
+    font-size: .85rem !important;
+    background: transparent !important;
+}
+
+/* Radio — читабельные карточки вместо зелёных кнопок */
+div[data-testid="stRadio"] > label {
+    color: var(--muted) !important;
+    font-size: .82rem !important;
+    background: transparent !important;
+}
+div[data-testid="stRadio"] > div {
+    gap: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
 div[data-testid="stRadio"] > div > label {
-    background: linear-gradient(135deg, var(--teal), #2EAFA7) !important;
-    border: none !important;
-    border-radius:12px !important;
-    padding:10px 16px !important;
-    color: var(--bg) !important;
-    font-weight:500 !important;
-    box-shadow:0 4px 18px rgba(78,205,196,.35) !important;
-    transition:all .2s ease !important;
+    background: var(--bg2) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 12px !important;
+    padding: 10px 16px !important;
+    color: var(--text) !important;
+    font-weight: 400 !important;
+    box-shadow: none !important;
+    transition: all .2s ease !important;
+    display: flex !important;
+    align-items: center !important;
 }
-
-/* hover */
 div[data-testid="stRadio"] > div > label:hover {
-    transform:translateY(-1px);
-    box-shadow:0 6px 24px rgba(78,205,196,.45) !important;
+    border-color: var(--teal) !important;
+    background: rgba(78,205,196,.08) !important;
+    transform: translateX(4px) !important;
+    box-shadow: none !important;
 }
-.stTextInput > div > div > input:focus, .stTextArea textarea:focus {
-    border-color:var(--teal) !important; box-shadow:0 0 0 2px rgba(78,205,196,.15) !important;
+/* Текст и параграф внутри label */
+div[data-testid="stRadio"] > div > label p,
+div[data-testid="stRadio"] > div > label > div > p,
+div[data-testid="stRadio"] > div > label span {
+    color: var(--text) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
-.stTextInput label, .stTextArea label, .stSelectbox label { color:var(--muted) !important; font-size:.85rem !important; }
 
 /* Прогресс-бар */
 .stProgress > div > div { background:linear-gradient(90deg, var(--teal), var(--accent)) !important; border-radius:4px !important; }
@@ -162,6 +204,41 @@ div[data-testid="stRadio"] > div > label:hover {
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 hr { border-color:var(--border); margin:1.5rem 0; }
+
+/* ── Глобальный фикс: все нативные тексты Streamlit видимы ── */
+
+/* Весь текст в main-контейнере */
+section[data-testid="stMain"] p,
+section[data-testid="stMain"] span:not(.tag),
+section[data-testid="stMain"] li,
+section[data-testid="stMain"] td,
+section[data-testid="stMain"] th { color: var(--text) !important; }
+
+/* Заголовки вне карточек получают подложку */
+section[data-testid="stMain"] h1,
+section[data-testid="stMain"] h2,
+section[data-testid="stMain"] h3,
+section[data-testid="stMain"] h4 {
+    color: var(--text) !important;
+    background: rgba(13,27,42,0.65);
+    border-radius: 8px;
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+/* Подложка под каждый блок st.markdown */
+div[data-testid="stMarkdownContainer"] {
+    background: rgba(13, 27, 42, 0.55);
+    border-radius: 10px;
+    padding: 6px 10px;
+}
+div[data-testid="stMarkdownContainer"] p      { color: var(--text) !important; }
+div[data-testid="stMarkdownContainer"] strong { color: var(--text) !important; }
+div[data-testid="stMarkdownContainer"] em     { color: var(--muted) !important; }
+
+/* Прогресс-метка */
+[data-testid="stText"] { color: var(--muted) !important; }
 </style>
 """, unsafe_allow_html=True)
 
