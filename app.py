@@ -131,11 +131,13 @@ h1,h2,h3,h4 { font-family: sans-serif; }
 .stMarkdown strong { color: var(--text) !important; }
 .stMarkdown li     { color: var(--text) !important; }
 
-/* Подложка под блоки Streamlit чтобы текст не сливался с фоном */
-.stMarkdown {
-    background: rgba(13, 27, 42, 0.6);
+/* Подложка только под текстовые параграфы (не кнопки) */
+div[data-testid="stMarkdownContainer"] > p,
+div[data-testid="stMarkdownContainer"] > ul,
+div[data-testid="stMarkdownContainer"] > ol {
+    background: rgba(13, 27, 42, 0.55);
     border-radius: 8px;
-    padding: 4px 8px;
+    padding: 6px 10px;
 }
 
 /* Инпуты — текст и фон */
@@ -214,8 +216,7 @@ section[data-testid="stMain"] li,
 section[data-testid="stMain"] td,
 section[data-testid="stMain"] th { color: var(--text) !important; }
 
-/* Заголовки вне карточек получают подложку */
-section[data-testid="stMain"] h1,
+/* Заголовки вне карточек получают подложку — но НЕ hero h1 */
 section[data-testid="stMain"] h2,
 section[data-testid="stMain"] h3,
 section[data-testid="stMain"] h4 {
@@ -226,13 +227,27 @@ section[data-testid="stMain"] h4 {
     display: inline-block;
     margin-bottom: 0.5rem;
 }
-
-/* Подложка под каждый блок st.markdown */
-div[data-testid="stMarkdownContainer"] {
-    background: rgba(13, 27, 42, 0.55);
-    border-radius: 10px;
-    padding: 6px 10px;
+/* h1 вне hero — тоже с подложкой, но hero h1 переопределяем отдельно */
+section[data-testid="stMain"] h1 {
+    color: var(--text) !important;
+    background: rgba(13,27,42,0.65);
+    border-radius: 8px;
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
 }
+/* Hero h1 — градиентный текст, без подложки */
+.hero h1 {
+    background: linear-gradient(135deg, var(--teal), var(--accent), var(--gold)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+/* Подложка под каждый блок st.markdown — только текст, без фона на кнопках */
 div[data-testid="stMarkdownContainer"] p      { color: var(--text) !important; }
 div[data-testid="stMarkdownContainer"] strong { color: var(--text) !important; }
 div[data-testid="stMarkdownContainer"] em     { color: var(--muted) !important; }
