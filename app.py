@@ -117,7 +117,7 @@ h1,h2,h3,h4 { font-family: sans-serif; }
 
 /* Кнопки */
 .stButton > button {
-    background:linear-gradient(135deg, #2EAFA7) !important;
+    background:linear-gradient(135deg, var(--teal), #2EAFA7) !important;
     color:var(--bg) !important; border:none !important; border-radius:12px !important;
     padding:.55rem 1.8rem !important; font-family:'Inter',sans-serif !important;
     font-weight:600 !important; font-size:.9rem !important; transition:all .25s !important;
@@ -158,43 +158,48 @@ div[data-testid="stMarkdownContainer"] > ol {
     background: transparent !important;
 }
 
-/* Radio — читабельные карточки вместо зелёных кнопок */
+/* Radio — одинаковый стиль с кнопками навигации */
 div[data-testid="stRadio"] > label {
     color: var(--muted) !important;
     font-size: .82rem !important;
     background: transparent !important;
 }
 div[data-testid="stRadio"] > div {
-    gap: 8px !important;
+    gap: 10px !important;
     display: flex !important;
     flex-direction: column !important;
 }
 div[data-testid="stRadio"] > div > label {
-    background: var(--bg2) !important;
-    border: 1px solid var(--border) !important;
+    background: linear-gradient(135deg, var(--teal), #2EAFA7) !important;
+    border: none !important;
     border-radius: 12px !important;
-    padding: 10px 16px !important;
-    color: var(--text) !important;
-    font-weight: 400 !important;
-    box-shadow: none !important;
-    transition: all .2s ease !important;
+    padding: 10px 20px !important;
+    color: var(--bg) !important;
+    font-weight: 600 !important;
+    font-size: .9rem !important;
+    box-shadow: 0 4px 18px rgba(78,205,196,.25) !important;
+    transition: all .25s ease !important;
     display: flex !important;
     align-items: center !important;
+    cursor: pointer !important;
+    letter-spacing: .02em !important;
 }
 div[data-testid="stRadio"] > div > label:hover {
-    border-color: var(--teal) !important;
-    background: rgba(78,205,196,.08) !important;
-    transform: translateX(4px) !important;
-    box-shadow: none !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(78,205,196,.4) !important;
+    background: linear-gradient(135deg, #5EDDD4, var(--teal)) !important;
 }
-/* Текст и параграф внутри label */
+/* Скрываем нативный кружок */
+div[data-testid="stRadio"] input[type="radio"] { display: none !important; }
+/* Текст внутри label */
 div[data-testid="stRadio"] > div > label p,
 div[data-testid="stRadio"] > div > label > div > p,
 div[data-testid="stRadio"] > div > label span {
-    color: var(--text) !important;
+    color: var(--bg) !important;
     background: transparent !important;
     padding: 0 !important;
     margin: 0 !important;
+    font-weight: 600 !important;
 }
 
 /* Прогресс-бар */
