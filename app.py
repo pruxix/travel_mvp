@@ -132,10 +132,10 @@ div[data-testid="stRadio"] input[type="radio"] { display:none; }
 /* Скрываем враппер кружка — он создаёт второй фон */
 div[data-testid="stRadio"] > div > label > div:first-child { display:none !important; }
 
-/* обычные варианты */
+/* Обычные варианты */
 div[data-testid="stRadio"] > div > label {
     background: linear-gradient(135deg, var(--teal), #2EAFA7) !important;
-    border: none !important;
+    border: 2px solid transparent !important;
     border-radius:12px !important;
     padding:10px 16px !important;
     color: var(--bg) !important;
@@ -147,6 +147,18 @@ div[data-testid="stRadio"] > div > label {
 /* Текст внутри label — без своего фона */
 div[data-testid="stRadio"] > div > label > div { background: transparent !important; }
 div[data-testid="stRadio"] > div > label p { color: var(--bg) !important; background: transparent !important; margin:0 !important; padding:0 !important; }
+
+/* Выбранный вариант — тёмный фон, белый текст, яркая рамка */
+div[data-testid="stRadio"] > div > label:has(input:checked) {
+    background: var(--bg) !important;
+    border: 2px solid var(--teal) !important;
+    box-shadow: 0 0 0 3px rgba(78,205,196,.25), 0 4px 18px rgba(78,205,196,.2) !important;
+}
+div[data-testid="stRadio"] > div > label:has(input:checked) p,
+div[data-testid="stRadio"] > div > label:has(input:checked) > div {
+    color: var(--teal) !important;
+    font-weight: 700 !important;
+}
 
 /* hover */
 div[data-testid="stRadio"] > div > label:hover {
@@ -396,7 +408,7 @@ def render_survey():
     st.progress(q_idx / total)
 
     q = QUESTIONS[q_idx]
-    st.markdown(f"### {q['emoji']} {q['text']}")
+    st.markdown(f"<h3 style='color:#E8F4FD !important;margin:1rem 0 1.2rem;font-size:1.3rem;'>{q['emoji']} {q['text']}</h3>", unsafe_allow_html=True)
 
     # 👇 ДОБАВЛЕН ОТСТУП МЕЖДУ ВАРИАНТАМИ
     st.markdown("""
