@@ -133,7 +133,7 @@ div[data-testid="stRadio"] > div > label {
 }
 div[data-testid="stRadio"] > div > label:hover { border-color:var(--teal) !important; }
 .stTextInput > div > div > input, .stTextArea textarea, .stSelectbox > div > div {
-    background:var(--teal) !important; border:1px solid var(--border) !important;
+    background:var(--bg2) !important; border:1px solid var(--border) !important;
     border-radius:12px !important; color:var(--text) !important;
 }
 .stTextInput > div > div > input:focus, .stTextArea textarea:focus {
