@@ -117,7 +117,7 @@ h1,h2,h3,h4 { font-family: sans-serif; }
 
 /* Кнопки */
 .stButton > button {
-    background:linear-gradient(135deg, var(--teal), #2EAFA7) !important;
+    background:linear-gradient(135deg, #2EAFA7) !important;
     color:var(--bg) !important; border:none !important; border-radius:12px !important;
     padding:.55rem 1.8rem !important; font-family:'Inter',sans-serif !important;
     font-weight:600 !important; font-size:.9rem !important; transition:all .25s !important;
