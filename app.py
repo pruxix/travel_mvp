@@ -189,11 +189,15 @@ div[data-testid="stRadio"] > div > label:hover {
     box-shadow: 0 6px 24px rgba(78,205,196,.4) !important;
     background: linear-gradient(135deg, #5EDDD4, var(--teal)) !important;
 }
-/* Скрываем нативный кружок */
+/* Скрываем нативный кружок-индикатор полностью */
 div[data-testid="stRadio"] input[type="radio"] { display: none !important; }
-/* Текст внутри label */
+div[data-testid="stRadio"] > div > label > div:first-child {
+    display: none !important;
+}
+/* Текст внутри label — прозрачный фон, нет двойного цвета */
+div[data-testid="stRadio"] > div > label > div:last-child,
+div[data-testid="stRadio"] > div > label > div:last-child > p,
 div[data-testid="stRadio"] > div > label p,
-div[data-testid="stRadio"] > div > label > div > p,
 div[data-testid="stRadio"] > div > label span {
     color: var(--bg) !important;
     background: transparent !important;
