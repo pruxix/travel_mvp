@@ -548,7 +548,12 @@ def render_profile():
 def render_route():
     city = st.session_state.city
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown(f"## 💡 Маршрут по {city}")
+    st.markdown(
+        f"<div style='background:rgba(13,27,42,0.85);border-radius:12px;padding:12px 16px;margin-bottom:1.2rem;'>"
+        f"<span style='color:#E8F4FD;font-size:1.4rem;font-weight:700;'>💡 Маршрут по {city}</span>"
+        f"</div>",
+        unsafe_allow_html=True
+    )
 
     if st.session_state.route is None:
         prompt = build_route_prompt(st.session_state.answers, st.session_state.profile, city)
