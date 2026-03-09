@@ -117,13 +117,13 @@ h1,h2,h3,h4 { font-family: sans-serif; }
 
 /* Кнопки */
 .stButton > button {
-    background:linear-gradient(135deg, var(--teal), #2EAFA7) !important;
-    color:var(--bg) !important; border:none !important; border-radius:12px !important;
-    padding:.55rem 1.8rem !important; font-family:'Inter',sans-serif !important;
-    font-weight:600 !important; font-size:.9rem !important; transition:all .25s !important;
-    box-shadow:0 4px 18px rgba(78,205,196,.25) !important; letter-spacing:.02em !important;
+    background: linear-gradient(135deg, var(--teal), #2EAFA7) !important;
+    color: var(--bg) !important; border: none !important; border-radius: 12px !important;
+    padding: .55rem 1.8rem !important; font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important; font-size: .9rem !important; transition: all .25s !important;
+    box-shadow: 0 4px 18px rgba(78,205,196,.25) !important; letter-spacing: .02em !important;
 }
-.stButton > button:hover { transform:translateY(-2px) !important; box-shadow:0 6px 24px rgba(78,205,196,.4) !important; }
+.stButton > button:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 24px rgba(78,205,196,.4) !important; }
 
 /* ── Все тексты явно белые, ничего не сливается с фоном ── */
 .stMarkdown p      { color: var(--text) !important; }
@@ -156,54 +156,6 @@ div[data-testid="stMarkdownContainer"] > ol {
     color: var(--muted) !important;
     font-size: .85rem !important;
     background: transparent !important;
-}
-
-/* Radio — одинаковый стиль с кнопками навигации */
-div[data-testid="stRadio"] > label {
-    color: var(--muted) !important;
-    font-size: .82rem !important;
-    background: transparent !important;
-}
-div[data-testid="stRadio"] > div {
-    gap: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-}
-div[data-testid="stRadio"] > div > label {
-    background: linear-gradient(135deg, var(--teal), #2EAFA7) !important;
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 10px 20px !important;
-    color: var(--bg) !important;
-    font-weight: 600 !important;
-    font-size: .9rem !important;
-    box-shadow: 0 4px 18px rgba(78,205,196,.25) !important;
-    transition: all .25s ease !important;
-    display: flex !important;
-    align-items: center !important;
-    cursor: pointer !important;
-    letter-spacing: .02em !important;
-}
-div[data-testid="stRadio"] > div > label:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 24px rgba(78,205,196,.4) !important;
-    background: linear-gradient(135deg, #5EDDD4, var(--teal)) !important;
-}
-/* Скрываем нативный кружок-индикатор полностью */
-div[data-testid="stRadio"] input[type="radio"] { display: none !important; }
-div[data-testid="stRadio"] > div > label > div:first-child {
-    display: none !important;
-}
-/* Текст внутри label — прозрачный фон, нет двойного цвета */
-div[data-testid="stRadio"] > div > label > div:last-child,
-div[data-testid="stRadio"] > div > label > div:last-child > p,
-div[data-testid="stRadio"] > div > label p,
-div[data-testid="stRadio"] > div > label span {
-    color: var(--bg) !important;
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-weight: 600 !important;
 }
 
 /* Прогресс-бар */
@@ -494,23 +446,25 @@ def render_survey():
     q = QUESTIONS[q_idx]
     st.markdown(f"### {q['emoji']} {q['text']}")
 
-    # 👇 ДОБАВЛЕН ОТСТУП МЕЖДУ ВАРИАНТАМИ
-    st.markdown("""
-    <style>
-    div[data-testid="stRadio"] > div {
-        gap: 8px;
-    }
-    div[data-testid="stRadio"] label {
-        margin-bottom: 6px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
+    # 👇 Варианты ответов — нативные st.button, единый стиль
     key = f"ans_{q['id']}"
     if q["type"] == "radio":
         cur = st.session_state.answers.get(q["id"], q["options"][0])
-        idx = q["options"].index(cur) if cur in q["options"] else 0
-        val = st.radio("", q["options"], index=idx, key=key, label_visibility="collapsed")
+        val = cur  # текущий выбор
+        cols_per_row = 2
+        options = q["options"]
+        for i in range(0, len(options), cols_per_row):
+            row_opts = options[i:i+cols_per_row]
+            cols = st.columns(len(row_opts))
+            for j, opt in enumerate(row_opts):
+                with cols[j]:
+                    is_selected = (cur == opt)
+                    # выбранная кнопка — чуть другой вид через CSS-класс
+                    btn_label = f"✓ {opt}" if is_selected else opt
+                    if st.button(btn_label, key=f"{key}_{i}_{j}", use_container_width=True):
+                        val = opt
+                        st.session_state.answers[q["id"]] = opt
+                        st.rerun()
     else:
         cur = st.session_state.answers.get(q["id"], "")
         val = st.text_input("", value=cur, placeholder=q.get("placeholder",""), key=key, label_visibility="collapsed")
@@ -529,7 +483,9 @@ def render_survey():
     with col3:
         lbl2 = "Далее →" if q_idx < total - 1 else "Завершить ✓"
         if st.button(lbl2, type="primary"):
-            st.session_state.answers[q["id"]] = val
+            # для radio значение уже сохранено при клике на кнопку варианта
+            if q["type"] != "radio":
+                st.session_state.answers[q["id"]] = val
             if q_idx < total - 1:
                 st.session_state.q_index += 1
             else:
