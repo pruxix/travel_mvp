@@ -408,7 +408,12 @@ def render_survey():
     st.progress(q_idx / total)
 
     q = QUESTIONS[q_idx]
-    st.markdown(f"<h3 style='color:#E8F4FD !important;margin:1rem 0 1.2rem;font-size:1.3rem;'>{q['emoji']} {q['text']}</h3>", unsafe_allow_html=True)
+    st.markdown(
+        f"<div style='background:rgba(13,27,42,0.85);border-radius:12px;padding:12px 16px;margin:1rem 0 1.2rem;display:inline-block;width:100%;box-sizing:border-box;'>"
+        f"<span style='color:#E8F4FD;font-size:1.25rem;font-weight:600;'>{q['emoji']} {q['text']}</span>"
+        f"</div>",
+        unsafe_allow_html=True
+    )
 
     # 👇 ДОБАВЛЕН ОТСТУП МЕЖДУ ВАРИАНТАМИ
     st.markdown("""
