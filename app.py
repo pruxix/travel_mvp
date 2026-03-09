@@ -117,46 +117,46 @@ h1,h2,h3,h4 { font-family: sans-serif; }
 
 /* Кнопки */
 .stButton > button {
+    background:linear-gradient(135deg, var(--teal), #2EAFA7) !important;
+    color:var(--bg) !important; border:none !important; border-radius:12px !important;
+    padding:.55rem 1.8rem !important; font-family:'Inter',sans-serif !important;
+    font-weight:600 !important; font-size:.9rem !important; transition:all .25s !important;
+    box-shadow:0 4px 18px rgba(78,205,196,.25) !important; letter-spacing:.02em !important;
+}
+.stButton > button:hover { transform:translateY(-2px) !important; box-shadow:0 6px 24px rgba(78,205,196,.4) !important; }
+
+/* Инпуты */
+.stRadio label { color:var(--text) !important; }
+div[data-testid="stRadio"] input[type="radio"] { display:none; }
+
+/* Скрываем враппер кружка — он создаёт второй фон */
+div[data-testid="stRadio"] > div > label > div:first-child { display:none !important; }
+
+/* обычные варианты */
+div[data-testid="stRadio"] > div > label {
     background: linear-gradient(135deg, var(--teal), #2EAFA7) !important;
-    color: var(--bg) !important; border: none !important; border-radius: 12px !important;
-    padding: .55rem 1.8rem !important; font-family: 'Inter', sans-serif !important;
-    font-weight: 600 !important; font-size: .9rem !important; transition: all .25s !important;
-    box-shadow: 0 4px 18px rgba(78,205,196,.25) !important; letter-spacing: .02em !important;
-}
-.stButton > button:hover { transform: translateY(-2px) !important; box-shadow: 0 6px 24px rgba(78,205,196,.4) !important; }
-
-/* ── Все тексты явно белые, ничего не сливается с фоном ── */
-.stMarkdown p      { color: var(--text) !important; }
-.stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4 { color: var(--text) !important; }
-.stMarkdown strong { color: var(--text) !important; }
-.stMarkdown li     { color: var(--text) !important; }
-
-/* Подложка только под текстовые параграфы (не кнопки) */
-div[data-testid="stMarkdownContainer"] > p,
-div[data-testid="stMarkdownContainer"] > ul,
-div[data-testid="stMarkdownContainer"] > ol {
-    background: rgba(13, 27, 42, 0.55);
-    border-radius: 8px;
-    padding: 6px 10px;
+    border: none !important;
+    border-radius:12px !important;
+    padding:10px 16px !important;
+    color: var(--bg) !important;
+    font-weight:500 !important;
+    box-shadow:0 4px 18px rgba(78,205,196,.35) !important;
+    transition:all .2s ease !important;
 }
 
-/* Инпуты — текст и фон */
-.stTextInput > div > div > input {
-    background: var(--bg2) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 12px !important;
-    color: var(--text) !important;
+/* Текст внутри label — без своего фона */
+div[data-testid="stRadio"] > div > label > div { background: transparent !important; }
+div[data-testid="stRadio"] > div > label p { color: var(--bg) !important; background: transparent !important; margin:0 !important; padding:0 !important; }
+
+/* hover */
+div[data-testid="stRadio"] > div > label:hover {
+    transform:translateY(-1px);
+    box-shadow:0 6px 24px rgba(78,205,196,.45) !important;
 }
-.stTextInput > div > div > input::placeholder { color: var(--muted) !important; opacity: 1; }
-.stTextInput > div > div > input:focus {
-    border-color: var(--teal) !important;
-    box-shadow: 0 0 0 2px rgba(78,205,196,.2) !important;
+.stTextInput > div > div > input:focus, .stTextArea textarea:focus {
+    border-color:var(--teal) !important; box-shadow:0 0 0 2px rgba(78,205,196,.15) !important;
 }
-.stTextInput label, .stTextArea label, .stSelectbox label {
-    color: var(--muted) !important;
-    font-size: .85rem !important;
-    background: transparent !important;
-}
+.stTextInput label, .stTextArea label, .stSelectbox label { color:var(--muted) !important; font-size:.85rem !important; }
 
 /* Прогресс-бар */
 .stProgress > div > div { background:linear-gradient(90deg, var(--teal), var(--accent)) !important; border-radius:4px !important; }
@@ -167,54 +167,6 @@ div[data-testid="stMarkdownContainer"] > ol {
 ::-webkit-scrollbar-track { background:var(--bg); }
 ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
 hr { border-color:var(--border); margin:1.5rem 0; }
-
-/* ── Глобальный фикс: все нативные тексты Streamlit видимы ── */
-
-/* Весь текст в main-контейнере */
-section[data-testid="stMain"] p,
-section[data-testid="stMain"] span:not(.tag),
-section[data-testid="stMain"] li,
-section[data-testid="stMain"] td,
-section[data-testid="stMain"] th { color: var(--text) !important; }
-
-/* Заголовки вне карточек получают подложку — но НЕ hero h1 */
-section[data-testid="stMain"] h2,
-section[data-testid="stMain"] h3,
-section[data-testid="stMain"] h4 {
-    color: var(--text) !important;
-    background: rgba(13,27,42,0.65);
-    border-radius: 8px;
-    padding: 4px 10px;
-    display: inline-block;
-    margin-bottom: 0.5rem;
-}
-/* h1 вне hero — тоже с подложкой, но hero h1 переопределяем отдельно */
-section[data-testid="stMain"] h1 {
-    color: var(--text) !important;
-    background: rgba(13,27,42,0.65);
-    border-radius: 8px;
-    padding: 4px 10px;
-    display: inline-block;
-    margin-bottom: 0.5rem;
-}
-/* Hero h1 — градиентный текст, без подложки */
-.hero h1 {
-    background: linear-gradient(135deg, var(--teal), var(--accent), var(--gold)) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    display: block !important;
-}
-
-/* Подложка под каждый блок st.markdown — только текст, без фона на кнопках */
-div[data-testid="stMarkdownContainer"] p      { color: var(--text) !important; }
-div[data-testid="stMarkdownContainer"] strong { color: var(--text) !important; }
-div[data-testid="stMarkdownContainer"] em     { color: var(--muted) !important; }
-
-/* Прогресс-метка */
-[data-testid="stText"] { color: var(--muted) !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -446,25 +398,23 @@ def render_survey():
     q = QUESTIONS[q_idx]
     st.markdown(f"### {q['emoji']} {q['text']}")
 
-    # 👇 Варианты ответов — нативные st.button, единый стиль
+    # 👇 ДОБАВЛЕН ОТСТУП МЕЖДУ ВАРИАНТАМИ
+    st.markdown("""
+    <style>
+    div[data-testid="stRadio"] > div {
+        gap: 8px;
+    }
+    div[data-testid="stRadio"] label {
+        margin-bottom: 6px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     key = f"ans_{q['id']}"
     if q["type"] == "radio":
         cur = st.session_state.answers.get(q["id"], q["options"][0])
-        val = cur  # текущий выбор
-        cols_per_row = 2
-        options = q["options"]
-        for i in range(0, len(options), cols_per_row):
-            row_opts = options[i:i+cols_per_row]
-            cols = st.columns(len(row_opts))
-            for j, opt in enumerate(row_opts):
-                with cols[j]:
-                    is_selected = (cur == opt)
-                    # выбранная кнопка — чуть другой вид через CSS-класс
-                    btn_label = f"✓ {opt}" if is_selected else opt
-                    if st.button(btn_label, key=f"{key}_{i}_{j}", use_container_width=True):
-                        val = opt
-                        st.session_state.answers[q["id"]] = opt
-                        st.rerun()
+        idx = q["options"].index(cur) if cur in q["options"] else 0
+        val = st.radio("", q["options"], index=idx, key=key, label_visibility="collapsed")
     else:
         cur = st.session_state.answers.get(q["id"], "")
         val = st.text_input("", value=cur, placeholder=q.get("placeholder",""), key=key, label_visibility="collapsed")
@@ -483,9 +433,7 @@ def render_survey():
     with col3:
         lbl2 = "Далее →" if q_idx < total - 1 else "Завершить ✓"
         if st.button(lbl2, type="primary"):
-            # для radio значение уже сохранено при клике на кнопку варианта
-            if q["type"] != "radio":
-                st.session_state.answers[q["id"]] = val
+            st.session_state.answers[q["id"]] = val
             if q_idx < total - 1:
                 st.session_state.q_index += 1
             else:
