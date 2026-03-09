@@ -148,13 +148,6 @@ div[data-testid="stRadio"] > div > label:hover {
     transform:translateY(-1px);
     box-shadow:0 6px 24px rgba(78,205,196,.45) !important;
 }
-
-/* ВЫБРАННЫЙ ОТВЕТ */
-div[data-testid="stRadio"] input[type="radio"]:checked + div {
-    background: linear-gradient(135deg, var(--gold), #FFC44D) !important;
-    color: var(--bg) !important;
-    box-shadow:0 6px 24px rgba(255,209,102,.5) !important;
-}
 .stTextInput > div > div > input:focus, .stTextArea textarea:focus {
     border-color:var(--teal) !important; box-shadow:0 0 0 2px rgba(78,205,196,.15) !important;
 }
