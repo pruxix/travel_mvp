@@ -353,9 +353,14 @@ def render_step_bar(current):
 # ════════════════════════════════════════════════════════════════
 def render_city_select():
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("## 🏙️ Куда летим?")
     st.markdown(
-        "<p style='color:#6b7280;margin-bottom:1.4rem'>Выберите из популярных направлений или введите свой город</p>",
+        "<div style='background:rgba(13,27,42,0.85);border-radius:12px;padding:12px 16px;margin-bottom:0.8rem;'>"
+        "<span style='color:#E8F4FD;font-size:1.4rem;font-weight:700;'>🏙️ Куда летим?</span>"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        "<p style='color:#E8F4FD;background:rgba(13,27,42,0.7);border-radius:8px;padding:8px 12px;margin-bottom:1.4rem;'>Выберите из популярных направлений или введите свой город</p>",
         unsafe_allow_html=True
     )
 
@@ -375,7 +380,7 @@ def render_city_select():
 
     # текстовый ввод для произвольного города
     st.markdown(
-        "<p style='color:#6b7280;font-size:.85rem;margin-top:1rem'>Или введите другой город:</p>",
+        "<p style='color:#E8F4FD;background:rgba(13,27,42,0.7);border-radius:8px;padding:6px 12px;font-size:.85rem;margin-top:1rem;'>Или введите другой город:</p>",
         unsafe_allow_html=True
     )
     custom = st.text_input("", placeholder="Лиссабон, Сеул, Медельин, Тбилиси...", label_visibility="collapsed")
@@ -462,7 +467,12 @@ def render_survey():
 # ════════════════════════════════════════════════════════════════
 def render_profile():
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("## 🧬 Ваш профиль путешественника")
+    st.markdown(
+        "<div style='background:rgba(13,27,42,0.85);border-radius:12px;padding:12px 16px;margin-bottom:1.2rem;'>"
+        "<span style='color:#E8F4FD;font-size:1.4rem;font-weight:700;'>🧬 Ваш профиль путешественника</span>"
+        "</div>",
+        unsafe_allow_html=True
+    )
 
     if st.session_state.profile is None:
         with st.spinner("Анализируем ваши предпочтения..."):
@@ -492,17 +502,32 @@ def render_profile():
       <div class="profile-badge"><div class="badge-label">Идеальный тип</div><div class="badge-value">{p.get('perfect_destination_type','—')[:40]}</div></div>
     </div>""", unsafe_allow_html=True)
 
-    st.markdown(f"**🎯 Мотивация:** {p.get('motivation','')}")
-    st.markdown(f"**🧭 Стиль:** {p.get('style','')}")
+    st.markdown(
+        f"<p style='color:#E8F4FD;background:rgba(13,27,42,0.7);border-radius:8px;padding:8px 12px;margin:4px 0;'>"
+        f"<b>🎯 Мотивация:</b> {p.get('motivation','')}</p>",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"<p style='color:#E8F4FD;background:rgba(13,27,42,0.7);border-radius:8px;padding:8px 12px;margin:4px 0;'>"
+        f"<b>🧭 Стиль:</b> {p.get('style','')}</p>",
+        unsafe_allow_html=True
+    )
 
     if p.get("strengths"):
-        st.markdown("**✨ Сильные стороны:**")
+        st.markdown(
+            "<p style='color:#E8F4FD;background:rgba(13,27,42,0.7);border-radius:8px;padding:8px 12px;margin:4px 0 8px;'><b>✨ Сильные стороны:</b></p>",
+            unsafe_allow_html=True
+        )
         for s in p["strengths"]:
             st.markdown(f'<span class="tag">✓ {s}</span>', unsafe_allow_html=True)
 
     if p.get("challenges"):
         ch = p["challenges"]
-        st.markdown(f"\n**⚠️ На заметку:** {ch if isinstance(ch, str) else ', '.join(ch)}")
+        st.markdown(
+            f"<p style='color:#E8F4FD;background:rgba(13,27,42,0.7);border-radius:8px;padding:8px 12px;margin:8px 0 4px;'>"
+            f"<b>⚠️ На заметку:</b> {ch if isinstance(ch, str) else ', '.join(ch)}</p>",
+            unsafe_allow_html=True
+        )
 
     st.markdown("</div>", unsafe_allow_html=True)
 
