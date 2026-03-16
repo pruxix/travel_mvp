@@ -241,7 +241,7 @@ MISTRAL_MODEL   = "mistral-large-latest"
 #  ВЫЗОВ LLM
 #  max_tokens увеличен до 4096 чтобы маршрут не обрывался
 # ════════════════════════════════════════════════════════════════
-def call_llm(system_prompt, user_message, history=None, stream=False, max_tokens=4096):
+def call_llm(system_prompt, user_message, history=None, stream=False, max_tokens=10000):
     headers = {"Authorization": f"Bearer {MISTRAL_API_KEY}", "Content-Type": "application/json"}
     messages = [{"role": "system", "content": system_prompt}]
     if history:
@@ -322,7 +322,7 @@ def build_route_prompt(answers, profile, city):
 Список с кратким описанием каждой.
 
 ## 🍜 Гастрономия (5 мест)
-Конкретные рестораны/рынки с описанием блюд.
+Конкретные рестораны/рынки с описанием блюд. Пиши не средний чек, а вилку цен (от/до за двух человек (или сколько просит пользователь).
 
 ## 💰 Бюджет
 | Категория | Стоимость |
