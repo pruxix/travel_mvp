@@ -5,7 +5,6 @@ import os
 
 # ════════════════════════════════════════════════════════════════
 #  PAGE CONFIG
-#  Меняй: title, icon, layout
 # ════════════════════════════════════════════════════════════════
 st.set_page_config(
     page_title="✈️ AI Travel Planner",
