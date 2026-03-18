@@ -2,7 +2,8 @@
 
 **AI-ассистент по планированию путешествий под ваши потребности и настроение**
 
-Ссылка на сервис: https://travelmvp-qkrw5dfrvkfjkjidy8bxda.streamlit.app/#kakova-glavnaya-tsel-poezdki 
+Ссылка на сервис: https://travelmvp-qkrw5dfrvkfjkjidy8bxda.streamlit.app/
+*при некорректной отработке сайта обновите его
 ---
 
 ## 📖 Overview
