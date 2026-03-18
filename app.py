@@ -16,7 +16,6 @@ st.set_page_config(
 
 # ════════════════════════════════════════════════════════════════
 #  CSS / ДИЗАЙН
-#  Меняй: цвета в :root, шрифты, стили карточек, кнопок
 # ════════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
@@ -184,7 +183,6 @@ hr { border-color:var(--border); margin:1.5rem 0; }
 
 # ════════════════════════════════════════════════════════════════
 #  SESSION STATE
-#  Добавляй новые поля здесь при необходимости
 # ════════════════════════════════════════════════════════════════
 for key, val in {
     "step": 0,          # 0=город, 1=опрос, 2=профиль, 3=маршрут, 4=чат
@@ -200,7 +198,6 @@ for key, val in {
 
 # ════════════════════════════════════════════════════════════════
 #  ВОПРОСЫ ОПРОСА
-#  Добавляй/убирай вопросы, меняй варианты ответов
 # ════════════════════════════════════════════════════════════════
 QUESTIONS = [
     {"id": "purpose",       "text": "Какова главная цель поездки?",           "type": "radio",  "emoji": "🎯",
@@ -221,7 +218,6 @@ QUESTIONS = [
 
 # ════════════════════════════════════════════════════════════════
 #  ПОПУЛЯРНЫЕ ГОРОДА
-#  Меняй список по своему усмотрению
 # ════════════════════════════════════════════════════════════════
 POPULAR_CITIES = [
     ("🗼", "Париж"), ("🏯", "Токио"), ("🗽", "Нью-Йорк"), ("🕌", "Стамбул"),
@@ -232,7 +228,6 @@ POPULAR_CITIES = [
 
 # ════════════════════════════════════════════════════════════════
 #  API НАСТРОЙКИ — MISTRAL
-#  Меняй: ключ, модель
 # ════════════════════════════════════════════════════════════════
 MISTRAL_API_KEY = "U4Ttbskkzv9xcOl9RQh13AfjsN7kQ49E"
 MISTRAL_URL     = "https://api.mistral.ai/v1/chat/completions"
@@ -240,7 +235,6 @@ MISTRAL_MODEL   = "mistral-large-latest"
 
 # ════════════════════════════════════════════════════════════════
 #  ВЫЗОВ LLM
-#  max_tokens увеличен до 4096 чтобы маршрут не обрывался
 # ════════════════════════════════════════════════════════════════
 def call_llm(system_prompt, user_message, history=None, stream=False, max_tokens=10000):
     headers = {"Authorization": f"Bearer {MISTRAL_API_KEY}", "Content-Type": "application/json"}
@@ -251,7 +245,6 @@ def call_llm(system_prompt, user_message, history=None, stream=False, max_tokens
     payload = {"model": MISTRAL_MODEL, "max_tokens": max_tokens, "messages": messages, "stream": stream}
 
     if stream:
-        # Стриминг: отдаём чанки по мере поступления
         with requests.post(MISTRAL_URL, headers=headers, json=payload, stream=True, timeout=180) as resp:
             if not resp.ok:
                 st.error(f"Mistral API error {resp.status_code}: {resp.text}")
@@ -284,7 +277,6 @@ def stream_llm(system_prompt, user_message, history=None):
 
 # ════════════════════════════════════════════════════════════════
 #  ПРОМПТЫ
-#  Меняй тексты и структуру промптов
 # ════════════════════════════════════════════════════════════════
 def build_profile_prompt(answers, city):
     return f"""Ты — психолог-путешествий. На основе ответов пользователя создай профиль.
@@ -423,7 +415,7 @@ def render_survey():
         unsafe_allow_html=True
     )
 
-    # 👇 ДОБАВЛЕН ОТСТУП МЕЖДУ ВАРИАНТАМИ
+
     st.markdown("""
     <style>
     div[data-testid="stRadio"] > div {
@@ -544,10 +536,8 @@ def render_profile():
             st.session_state.step = 3
             st.rerun()
 
-# ════════════════════════════════════════════════════════════════
-#  ШАГ 3: МАРШРУТ
-#  Стриминг + увеличенный max_tokens = маршрут генерируется полностью
-# ════════════════════════════════════════════════════════════════
+
+
 def render_route():
     city = st.session_state.city
     st.markdown('<div class="card">', unsafe_allow_html=True)
@@ -641,10 +631,7 @@ def render_chat():
                 del st.session_state[k]
             st.rerun()
 
-# ════════════════════════════════════════════════════════════════
-#  ГЛАВНАЯ ТОЧКА ВХОДА
-#  Меняй: заголовок и подзаголовок hero
-# ════════════════════════════════════════════════════════════════
+
 st.markdown("""
 <div class="hero">
   <h1>✈️ TripPersona AI</h1>
